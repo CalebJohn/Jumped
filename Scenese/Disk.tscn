@@ -1,0 +1,90 @@
+[gd_scene load_steps=5 format=1]
+
+[ext_resource path="res://Scripts/ball_control.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/draw_ball.gd" type="Script" id=2]
+[ext_resource path="res://Scripts/drop_shake.gd" type="Script" id=3]
+
+[sub_resource type="CircleShape2D" id=1]
+
+custom_solver_bias = 0.0
+radius = 25.0
+
+[node name="Ball" type="RigidBody2D"]
+
+input/pickable = false
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+collision/layers = 1
+collision/mask = 1
+mode = 0
+mass = 1.0
+friction = 0.0
+bounce = 0.0
+gravity_scale = 1.7
+custom_integrator = false
+continuous_cd = 0
+contacts_reported = 0
+contact_monitor = false
+sleeping = false
+can_sleep = true
+velocity/linear = Vector2( 0, 0 )
+velocity/angular = 0.0
+damp_override/linear = -1.0
+damp_override/angular = -1.0
+script/script = ExtResource( 1 )
+min_speed = 100
+gravity_mult = 10.0
+gravity_penalty = 3
+maximum_stretch_point = 800
+start_stretch_point = 0
+min_gravity = 0.5
+shake_trigger = 0.5
+
+[node name="Shape" type="Polygon2D" parent="."]
+
+polygon = Vector2Array( 17.4326, 17.9151, 24.9608, -0.00921631, 17.675, -17.675, 0.942261, -24.3863, -17.3405, -18.6505, -24.5102, 1.06625, -15.9066, 18.9905, -0.133179, 24.0093 )
+uv = Vector2Array(  )
+color = Color( 0.785156, 0, 0, 1 )
+vertex_colors = ColorArray(  )
+offset = Vector2( 0, 0 )
+texture/texture = null
+texture/offset = Vector2( 0, 0 )
+texture/scale = Vector2( 1, 1 )
+texture/rotation = 0.0
+invert/enable = false
+invert/border = 100.0
+script/script = ExtResource( 2 )
+points = 36
+radius = 25
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+anchor_mode = 1
+rotating = false
+current = true
+zoom = Vector2( 1, 1 )
+limit/left = -10000000
+limit/top = -10000000
+limit/right = 10000000
+limit/bottom = 600
+drag_margin/h_enabled = true
+drag_margin/v_enabled = true
+smoothing/enable = true
+smoothing/speed = 10.0
+drag_margin/left = 0.2
+drag_margin/top = 0.0
+drag_margin/right = 0.2
+drag_margin/bottom = 0.4
+script/script = ExtResource( 3 )
+max_shake_sqr_vel = 2000000
+
+[connection signal="shake_camera" from="." to="Camera2D" method="shake"]
+
+

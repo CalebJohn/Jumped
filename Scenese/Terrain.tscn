@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=1]
+
+[ext_resource path="res://Scripts/build_terrain.gd" type="Script" id=1]
+
+[node name="Terrain" type="Node2D"]
+
+script/script = ExtResource( 1 )
+peak_upper = 300
+peak_lower = 100
+valley_upper = 200
+valley_lower = 30
+width = 250
+hill_width = 1000.0
+num_hills = 60
+min_variation = 70
+
+
