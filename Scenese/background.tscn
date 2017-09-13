@@ -1,0 +1,289 @@
+[gd_scene load_steps=4 format=1]
+
+[ext_resource path="res://Scripts/background.gd" type="Script" id=1]
+
+[sub_resource type="CanvasItemShader" id=1]
+
+_code = {
+"fragment": "uniform vec3 color1;
+uniform vec3 light1;
+uniform vec3 color2;
+uniform vec3 light2;
+uniform float falloff;
+uniform color background;
+uniform vec2 resolution;
+uniform float HDR;
+uniform float density;
+uniform float con = 0.01;
+
+float hash(vec2 x) {
+	return fract(sin(dot(x, vec2(123.4, 748.6)))*5232.85324);
+}
+
+float noise(vec2 x) {
+	vec2 p = floor(x);
+	vec2 f = fract(x);
+	vec2 u = f*f*(vec2(3.0)-2.0*f);
+	vec2 a = vec2(1.0, 0.0);
+	vec2 k = vec2(0.3183099, 0.3678794);
+	vec2 i = p*k+k.yx;
+	vec2 n = vec2(-1.0) + 2.0*fract(16.0 * k *fract(i.x*i.y*(i.x+i.y)));
+	float h1 = dot(n, f);
+	i = (p+a.xy)*k+k.yx;
+	n = vec2(-1.0) + 2.0*fract(16.0 * k *fract(i.x*i.y*(i.x+i.y)));
+	float h2 = dot(n, f - a.xy);
+	i = (p+a.yx)*k+k.yx;
+	n = vec2(-1.0) + 2.0*fract(16.0 * k *fract(i.x*i.y*(i.x+i.y)));
+	float h3 = dot(n, f - a.yx);
+	i = (p+a.xx)*k+k.yx;
+	n = vec2(-1.0) + 2.0*fract(16.0 * k *fract(i.x*i.y*(i.x+i.y)));
+	float h4 = dot(n, f - a.xx);
+	float h = mix(mix(h1, h2, u.x), mix(h3, h4, u.x), u.y);
+	return h;
+}
+
+float HG(float theta, float g) {
+	float denom = 1.0+g*g+2.0*g*theta;
+	return (1.0/(4.0*3.14159))*(1.0-g*g)/(denom*sqrt(denom)); 
+}
+
+float phase() {
+	return 1.0/(4.0*3.1415);
+}
+
+
+vec2 uv = SCREEN_UV.xy*vec2(2.0)-vec2(1.0);
+uv.x *= resolution.x/resolution.y;
+vec3 ray = (vec3(uv.x, uv.y, 1.0));
+  
+vec3 col = background.xyz;
+{
+float T = 1.0;
+float L = 0.0;
+float e = exp(-density);
+vec3 C = vec3(0.0);
+float i = 0.0;
+	{
+	vec3 p = ray*i;
+	T*= e;
+	float dist = dot(light1-p, light1-p);
+	float I = exp(-density*dist)/(dist*falloff+con);
+	C += T*I*phase()*color1;
+	i+=1.0;
+	}
+		{
+	vec3 p = ray*i;
+	T*= e;
+	float dist = dot(light1-p, light1-p);
+	float I = exp(-density*dist)/(dist*dist*falloff+con);
+	C += T*I*phase()*color1;
+	i+=1.0;
+	}
+		{
+	vec3 p = ray*i;
+	T*= e;
+	float dist = dot(light1-p, light1-p);
+	float I = exp(-density*dist)/(dist*falloff+con);
+	C += T*I*phase()*color1;
+	i+=1.0;
+	}
+		{
+	vec3 p = ray*i;
+	T*= e;
+	float dist = dot(light1-p, light1-p);
+	float I = exp(-density*dist)/(dist*falloff+con);
+	C += T*I*phase()*color1;
+	i+=1.0;
+	}
+		{
+	vec3 p = ray*i;
+	T*= e;
+	float dist = dot(light1-p, light1-p);
+	float I = exp(-density*dist)/(dist*falloff+con);
+	C += T*I*phase()*color1;
+	i+=1.0;
+	}
+		{
+	vec3 p = ray*i;
+	T*= e;
+	float dist = dot(light1-p, light1-p);
+	float I = exp(-density*dist)/(dist*falloff+con);
+	C += T*I*phase()*color1;
+	i+=1.0;
+	}
+		{
+	vec3 p = ray*i;
+	T*= e;
+	float dist = dot(light1-p, light1-p);
+	float I = exp(-density*dist)/(dist*falloff+con);
+	C += T*I*phase()*color1;
+	i+=1.0;
+	}
+		{
+	vec3 p = ray*i;
+	T*= e;
+	float dist = dot(light1-p, light1-p);
+	float I = exp(-density*dist)/(dist*falloff+con);
+	C += T*I*phase()*color1;
+	i+=1.0;
+	}
+		{
+	vec3 p = ray*i;
+	T*= e;
+	float dist = dot(light1-p, light1-p);
+	float I = exp(-density*dist)/(dist*falloff+con);
+	C += T*I*phase()*color1;
+	i+=1.0;
+	}
+		{
+	vec3 p = ray*i;
+	T*= e;
+	float dist = dot(light1-p, light1-p);
+	float I = exp(-density*dist)/(dist*falloff+con);
+	C += T*I*phase()*color1;
+	i+=1.0;
+	}
+		{
+	vec3 p = ray*i;
+	T*= e;
+	float dist = dot(light1-p, light1-p);
+	float I = exp(-density*dist)/(dist*falloff+con);
+	C += T*I*phase()*color1;
+	i+=1.0;
+	}
+col +=C*T;
+}
+
+{
+float T = 1.0;
+float L = 0.0;
+float e = exp(-density);
+vec3 C = vec3(0.0);
+float i = 0.0;
+	{
+	vec3 p = ray*i;
+	T*= e;
+	float dist = dot(light2-p, light2-p);
+	float I = exp(-density*dist)/(dist*falloff+con);
+	C += T*I*phase()*color2;
+	i+=1.0;
+	}
+		{
+	vec3 p = ray*i;
+	T*= e;
+	float dist = dot(light2-p, light2-p);
+	float I = exp(-density*dist)/(dist*falloff+con);
+	C += T*I*phase()*color2;
+	i+=1.0;
+	}	{
+	vec3 p = ray*i;
+	T*= e;
+	float dist = dot(light2-p, light2-p);
+	float I = exp(-density*dist)/(dist*falloff+con);
+	C += T*I*phase()*color2;
+	i+=1.0;
+	}	{
+	vec3 p = ray*i;
+	T*= e;
+	float dist = dot(light2-p, light2-p);
+	float I = exp(-density*dist)/(dist*falloff+con);
+	C += T*I*phase()*color2;
+	i+=1.0;
+	}	{
+	vec3 p = ray*i;
+	T*= e;
+	float dist = dot(light2-p, light2-p);
+	float I = exp(-density*dist)/(dist*falloff+con);
+	C += T*I*phase()*color2;
+	i+=1.0;
+	}	{
+	vec3 p = ray*i;
+	T*= e;
+	float dist = dot(light2-p, light2-p);
+	float I = exp(-density*dist)/(dist*falloff+con);
+	C += T*I*phase()*color2;
+	i+=1.0;
+	}	{
+	vec3 p = ray*i;
+	T*= e;
+	float dist = dot(light2-p, light2-p);
+	float I = exp(-density*dist)/(dist*falloff+con);
+	C += T*I*phase()*color2;
+	i+=1.0;
+	}	{
+	vec3 p = ray*i;
+	T*= e;
+	float dist = dot(light2-p, light2-p);
+	float I = exp(-density*dist)/(dist*falloff+con);
+	C += T*I*phase()*color2;
+	i+=1.0;
+	}	{
+	vec3 p = ray*i;
+	T*= e;
+	float dist = dot(light2-p, light2-p);
+	float I = exp(-density*dist)/(dist*falloff+con);
+	C += T*I*phase()*color2;
+	i+=1.0;
+	}	{
+	vec3 p = ray*i;
+	T*= e;
+	float dist = dot(light2-p, light2-p);
+	float I = exp(-density*dist)/(dist*falloff+con);
+	C += T*I*phase()*color2;
+	i+=1.0;
+	}
+	
+col +=C*T;
+}
+
+col /= HDR*col+vec3(1.0);
+col += mix(-2.0/255.0, 2.0/255.0, hash(uv));
+COLOR.xyz = col;",
+"fragment_ofs": 0,
+"light": "",
+"light_ofs": 0,
+"vertex": "",
+"vertex_ofs": 0
+}
+
+[sub_resource type="CanvasItemMaterial" id=2]
+
+shader/shader = SubResource( 1 )
+shader/shading_mode = 0
+shader_param/color1 = Vector3( 0.5, 0.3, 0.3 )
+shader_param/light1 = Vector3( 1, 1, 4 )
+shader_param/color2 = Vector3( 0.4, 0.7, 0.3 )
+shader_param/light2 = Vector3( 4, 2, 6 )
+shader_param/falloff = 0.05
+shader_param/background = Vector3( 0.2, 0.3, 0.4 )
+shader_param/resolution = Vector2( 1024, 600 )
+shader_param/HDR = 1.0
+shader_param/density = 0.0
+shader_param/con = 0.01
+
+[node name="background" type="CanvasLayer"]
+
+layer = -1
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+script/script = ExtResource( 1 )
+
+[node name="backQuad" type="Polygon2D" parent="."]
+
+material/material = SubResource( 2 )
+transform/pos = Vector2( -4.20483, -4.20474 )
+transform/scale = Vector2( 1033, 600 )
+polygon = Vector2Array( 0, 0, 0, 1, 1, 1, 1, 0 )
+uv = Vector2Array(  )
+color = Color( 0.325989, 0.592882, 0.851562, 1 )
+vertex_colors = ColorArray(  )
+offset = Vector2( 0, 0 )
+texture/texture = null
+texture/offset = Vector2( 0, 0 )
+texture/scale = Vector2( 1, 1 )
+texture/rotation = 0.0
+invert/enable = false
+invert/border = 100.0
+
+
